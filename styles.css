@@ -472,6 +472,24 @@ footer{width:calc(100% - 40px);display:grid;gap:12px}
 @media(max-width:760px){.nav:not(.is-scrolled) nav{display:flex;left:auto;right:10px;transform:translateY(-50%);gap:0}.nav:not(.is-scrolled) nav a{font-size:.59rem;padding:8px 4px;white-space:nowrap}.nav:not(.is-scrolled) .brand{font-size:.77rem;left:14px}}
 @media(prefers-reduced-motion:reduce){.nav .brand{transition:none}}
 
+/* Separate the focused message flow from the lighter social connection shelf. */
+.contact{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(42px,8vw,116px);align-items:start;padding-bottom:82px}
+.contact-intro{padding-top:42px}
+.contact-form-panel{margin-top:0;padding:30px;border-radius:22px;background:linear-gradient(145deg,#d9f1e3,#eef5e6);box-shadow:inset 0 1px 0 rgba(255,255,255,.75)}
+.contact-form-panel>p{margin:20px 0 24px;font-size:1.02rem}
+.contact-form{margin:0;padding:0;border:0;background:transparent}
+.contact-form label{display:block;font-size:.61rem}
+.contact-form input,.contact-form textarea{display:block;margin-top:8px;border-color:rgba(16,36,42,.17);border-radius:10px;background:rgba(255,255,255,.84)}
+.contact-form textarea{min-height:132px}
+.contact-form-footer{padding-top:3px}
+.social-station{display:grid;grid-template-columns:minmax(220px,.52fr) minmax(0,1.48fr);gap:38px;align-items:center;padding:42px 0 132px;border-top:1px solid var(--line)}
+.social-heading .eyebrow{margin-bottom:14px}.social-heading .eyebrow span{background:var(--mint)}
+.social-heading h2{margin:0;font:600 clamp(2.2rem,4vw,4rem)/.95 var(--serif);letter-spacing:-.06em}.social-heading h2 em{color:#0f8f80}
+.social-heading>p:last-child{max-width:260px;margin:18px 0 0;color:#526268;line-height:1.5}
+.social-station .contact-links{grid-template-columns:repeat(4,minmax(0,1fr))}
+.social-station .contact-card{min-height:118px}
+@media(max-width:760px){.contact{display:block;padding-bottom:62px}.contact-intro{padding-top:0}.contact-form-panel{margin-top:34px;padding:22px}.social-station{display:block;padding:34px 0 90px}.social-heading>p:last-child{max-width:340px}.social-station .contact-links{margin-top:28px;grid-template-columns:repeat(2,minmax(0,1fr))}.social-station .contact-card{min-height:112px}}
+
 /* Project-specific illustrations in the same soft, layered geometric language. */
 .project-visual{isolation:isolate}
 .mira .project-visual{background:#deead5}
