@@ -71,6 +71,7 @@ async function start() {
   railElement.setAttribute('aria-hidden', 'true');
   document.body.append(railElement);
   const railDock = { element: railElement, name: 'scroll-rail' };
+  const heroSection = stage.closest('.hero');
   document.body.classList.add('navi-enabled');
   const point = new THREE.Vector2(), target = new THREE.Vector2(), pointer = new THREE.Vector2(), look = new THREE.Vector2();
   const offset = new THREE.Quaternion(), euler = new THREE.Euler();
@@ -127,13 +128,15 @@ async function start() {
       point.copy(target);
       return;
     }
-    const shouldUseRail = width > 760 && window.scrollY > Math.max(280, height * .52);
+    const shouldUseRail = width > 760
+      ? window.scrollY > Math.max(280, height * .52)
+      : heroSection.getBoundingClientRect().bottom <= 150;
     railElement.classList.toggle('is-active', shouldUseRail);
     if (shouldUseRail) {
       const rect = railElement.getBoundingClientRect();
       const changed = activeDock !== railDock;
       railMode = true; activeDock = railDock; dockRect = rect;
-      desiredSize = Math.min(105, rect.width * .64, rect.height * .56);
+      desiredSize = Math.min(width <= 760 ? 82 : 105, rect.width * .64, rect.height * .56);
       target.set(rect.left + rect.width / 2, rect.top + rect.height / 2);
       if (changed) { opacity = 0; drift = 0; tourUntil = 0; point.copy(target); }
       else point.copy(target);
@@ -331,7 +334,7 @@ async function start() {
       const footY = (-projectedFoot.y * .5 + .5) * height;
       footLeft = Math.min(footLeft, footX); footRight = Math.max(footRight, footX); footBottom = Math.max(footBottom, footY);
     }
-    const platformBaseCenterX = dockRect ? dockRect.right - 101 : point.x;
+    const platformBaseCenterX = dockRect ? dockRect.right - (width <= 760 ? 82 : 101) : point.x;
     const platformBaseCenterY = height - 57.5;
     const desiredPlatformShiftX = railMode ? clamp((footLeft + footRight) * .5 - platformBaseCenterX, -18, 18) : 0;
     const desiredPlatformShiftY = railMode ? clamp(footBottom + 3 - platformBaseCenterY, -30, 34) : 0;

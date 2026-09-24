@@ -31,5 +31,5 @@
 .navi-enabled .mini-navi img{visibility:hidden}
 .navi-enabled .mini-navi{min-height:280px}
 .navi-controls,.navi-note{z-index:6}
-@media(max-width:760px){.navi-dock-hero{inset:18% 0 26%}.navi-dock-flow{height:210px}.navi-dock-quote{inset:12px}.navi-dock-rail{display:none}}
+@media(max-width:760px){.navi-dock-hero{inset:18% 0 26%}.navi-dock-flow{height:210px}.navi-dock-project{inset:auto 0 0 auto;width:110px;height:126px}.navi-dock-quote{inset:12px}.navi-dock-rail{right:-28px}.navi-dock-rail::before{right:calc(30px - var(--platform-shift-x,0px));width:104px}.navi-dock-rail::after{right:calc(27px - var(--platform-shift-x,0px));width:110px}}
 @media(prefers-reduced-motion:reduce){.reveal{transition:none}.marquee-track,.pulse,.navi-dock-rail::before,.navi-dock-rail::after{animation:none!important}}

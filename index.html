@@ -17,9 +17,11 @@
     <div class="cursor-orb" aria-hidden="true"></div>
 
     <header class="nav">
-      <a class="brand" href="#top">Furkan Çalık<span>.</span></a>
-      <nav aria-label="Ana menü">
+      <a class="brand" href="#top" aria-controls="primary-navigation">Furkan Çalık<span>.</span></a>
+      <nav id="primary-navigation" aria-label="Ana menü">
+        <span class="nav-indicator" aria-hidden="true"></span>
         <a href="#hakkimda">Hakkımda</a>
+        <a href="#beceriler">Beceriler</a>
         <a href="#projeler">Projeler</a>
         <a href="#iletisim">İletişim</a>
       </nav>
@@ -30,7 +32,8 @@
       <section class="hero section">
         <div class="hero-copy reveal">
           <p class="eyebrow"><span></span> Bilgisayar Mühendisi</p>
-          <h1>Fikirleri <em>canlı</em><br />deneyimlere<br />dönüştürüyorum.</h1>
+          <h1>Fikirleri<br /><span class="hero-rotating" aria-live="polite"><span class="hero-phrase">mobil deneyimlere</span></span><br />dönüştürüyorum.</h1>
+          <p class="hero-role-label"><span></span> ürün mühendisi · yaratıcı teknolog</p>
           <p class="intro">Merak, tasarım ve sağlam mühendisliği bir araya getirerek insanların kullanmayı sevdiği dijital ürünler geliştiriyorum.</p>
           <div class="hero-actions">
             <a class="button primary" href="#projeler">Projeleri keşfet <span>↓</span></a>
@@ -70,20 +73,51 @@
         </div>
       </section>
 
+      <section class="skills section" id="beceriler">
+        <h2 class="visually-hidden">Beceriler ve kullandığım teknolojiler</h2>
+        <div class="skill-orbit" aria-label="Becerilerim: Flutter, Dart, Firebase, Kotlin, Java ve JavaFX, Gemini, Groq, WebRTC, Arduino, Jetpack Compose, C++, Git, GitHub Actions, Android Studio, Room ve Proteus">
+          <p class="skill-message">Farklı araçlar,<br /><strong>tek bir merak.</strong></p>
+          <span class="skill-chip flutter" style="--start-x:8%;--start-y:14%;--mobile-x:7%;--mobile-y:8%" role="img" aria-label="Flutter"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="" /></span>
+          <span class="skill-chip dart" style="--start-x:31%;--start-y:8%;--mobile-x:39%;--mobile-y:4%" role="img" aria-label="Dart"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" alt="" /></span>
+          <span class="skill-chip firebase" style="--start-x:76%;--start-y:15%;--mobile-x:76%;--mobile-y:9%" role="img" aria-label="Firebase"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="" /></span>
+          <span class="skill-chip kotlin" style="--start-x:54%;--start-y:20%;--mobile-x:20%;--mobile-y:20%" role="img" aria-label="Kotlin"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" alt="" /></span>
+          <span class="skill-chip java" style="--start-x:18%;--start-y:39%;--mobile-x:57%;--mobile-y:22%" role="img" aria-label="Java ve JavaFX"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="" /></span>
+          <span class="skill-chip ai" style="--start-x:87%;--start-y:38%;--mobile-x:82%;--mobile-y:32%" role="img" aria-label="Google Gemini"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4c4 15 13 24 28 28-15 4-24 13-28 28C28 45 19 36 4 32 19 28 28 19 32 4Z" fill="currentColor"/><path d="M47 5c1 5 4 8 9 9-5 1-8 4-9 9-1-5-4-8-9-9 5-1 8-4 9-9Z" fill="currentColor" opacity=".5"/></svg></span>
+          <span class="skill-chip web" style="--start-x:38%;--start-y:25%;--mobile-x:6%;--mobile-y:37%" role="img" aria-label="WebRTC"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="12" cy="32" r="7" fill="currentColor"/><circle cx="50" cy="14" r="7" fill="currentColor"/><circle cx="50" cy="50" r="7" fill="currentColor"/><path d="M18 29 43 17M18 35l25 12" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span>
+          <span class="skill-chip hardware" style="--start-x:69%;--start-y:54%;--mobile-x:43%;--mobile-y:40%" role="img" aria-label="Arduino"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg" alt="" /></span>
+          <span class="skill-chip compose" style="--start-x:5%;--start-y:69%;--mobile-x:70%;--mobile-y:47%" role="img" aria-label="Jetpack Compose"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jetpackcompose/jetpackcompose-original.svg" alt="" /></span>
+          <span class="skill-chip cpp" style="--start-x:29%;--start-y:66%;--mobile-x:14%;--mobile-y:53%" role="img" aria-label="C++"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="" /></span>
+          <span class="skill-chip git" style="--start-x:89%;--start-y:72%;--mobile-x:48%;--mobile-y:59%" role="img" aria-label="Git"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="" /></span>
+          <span class="skill-chip actions" style="--start-x:48%;--start-y:76%;--mobile-x:83%;--mobile-y:65%" role="img" aria-label="GitHub Actions"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg" alt="" /></span>
+          <span class="skill-chip android" style="--start-x:59%;--start-y:6%;--mobile-x:5%;--mobile-y:73%" role="img" aria-label="Android Studio"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg" alt="" /></span>
+          <span class="skill-chip groq" style="--start-x:3%;--start-y:47%;--mobile-x:37%;--mobile-y:78%" role="img" aria-label="Groq"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M46 15a20 20 0 1 0 4 28H32V31h19v14A27 27 0 1 1 46 15Z" fill="currentColor"/><circle cx="46" cy="22" r="5" fill="currentColor"/></svg></span>
+          <span class="skill-chip room" style="--start-x:66%;--start-y:34%;--mobile-x:73%;--mobile-y:82%" role="img" aria-label="Room veritabanı"><svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="14" rx="22" ry="9" fill="currentColor"/><path d="M10 14v35c0 5 10 9 22 9s22-4 22-9V14M10 31c0 5 10 9 22 9s22-4 22-9" fill="none" stroke="currentColor" stroke-width="5"/></svg></span>
+          <span class="skill-chip proteus" style="--start-x:28%;--start-y:86%;--mobile-x:15%;--mobile-y:89%" role="img" aria-label="Proteus"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M5 36h13l8-19 12 31 8-17h13" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="36" r="4" fill="currentColor"/><circle cx="57" cy="31" r="4" fill="currentColor"/></svg></span>
+        </div>
+      </section>
+
       <section class="projects section" id="projeler">
-        <div class="section-heading reveal"><div><p class="eyebrow"><span></span> Seçili çalışmalar</p><h2>İnşa ettiklerim.</h2></div><p>Her proje bir fikrin, ihtiyacın ve dikkatle verilmiş kararların hikâyesi.</p></div>
+        <div class="section-heading reveal"><div><p class="eyebrow"><span></span> Seçili çalışmalar</p><h2>İnşa ettiklerim.</h2></div><p>Mobil deneyim, yapay zeka, güvenlik ve donanım arasında dolaşan beş ayrıntılı proje.</p></div>
         <div class="project-list">
           <article class="project mira reveal">
-            <div class="project-visual"><span class="visual-label">MIRA</span><div class="mira-sun"></div><div class="mira-line line-a"></div><div class="mira-line line-b"></div><div class="mira-line line-c"></div></div>
-            <div class="project-meta"><p>01 — Dijital ürün</p><h3>Mira</h3><p>İnsanları günlük ritimleriyle yeniden buluşturan, sakin ve sezgisel bir deneyim.</p><a href="#iletisim" class="project-link">Detayları gör <span>↗</span></a></div>
+            <div class="project-visual"><span class="visual-label">MIRA</span><div class="mira-panel" aria-hidden="true"><div class="mira-sun"></div><div class="mira-orbit"></div><div class="mira-habit h1"><i></i><span></span></div><div class="mira-habit h2"><i></i><span></span></div><div class="mira-habit h3"><i></i><span></span></div></div><span class="mira-petal petal-one" aria-hidden="true"></span><span class="mira-petal petal-two" aria-hidden="true"></span></div>
+            <div class="project-meta"><p>01 — Yapay zeka destekli wellbeing</p><h3>Mira</h3><p>Sirkadiyen ritme göre alışkanlık önerileri üreten, offline-first çalışan; AI koç, sosyal çevreler ve oyunlaştırma içeren kişisel gelişim ürünü.</p><div class="project-tags"><span>Flutter</span><span>Firebase</span><span>Groq</span></div></div>
           </article>
           <article class="project eloa reveal">
-            <div class="project-visual"><span class="visual-label">ELOA</span><div class="el-card e1"></div><div class="el-card e2"></div><div class="el-card e3"></div><div class="el-ring"></div></div>
-            <div class="project-meta"><p>02 — Platform</p><h3>EloA</h3><p>İş akışlarını görünür kılan, ekipleri aynı bağlamda buluşturan bir çalışma alanı.</p><a href="#iletisim" class="project-link">Detayları gör <span>↗</span></a></div>
+            <div class="project-visual"><span class="visual-label">ELOA</span><div class="eloa-layer el-back" aria-hidden="true"></div><div class="eloa-layer el-middle" aria-hidden="true"></div><div class="eloa-palm" aria-hidden="true"><svg viewBox="0 0 120 150"><path d="M39 134c-8-11-15-25-23-44-3-8 5-14 11-8l13 17-4-57c-1-9 10-10 12-2l5 39-1-53c0-10 12-10 13 0l1 52 3-48c1-9 12-8 12 1l-2 50 8-34c2-8 13-6 11 3l-9 46c9-13 20-9 13 3l-19 34c-8 15-34 18-44 1Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 108c12-12 27-13 40-3M51 118c9-6 21-6 30 0" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"/></svg></div><span class="eloa-spark spark-one" aria-hidden="true">✦</span><span class="eloa-spark spark-two" aria-hidden="true">✦</span></div>
+            <div class="project-meta"><p>02 — Multimodal yapay zeka</p><h3>Eloa</h3><p>El, yüz ve rüya yorumlarını; kamera akışı, Gemini’nin görsel muhakemesi ve Groq’nun hızlı metin senteziyle tek bir mobil deneyimde buluşturuyor.</p><div class="project-tags"><span>Gemini</span><span>Flutter</span><span>Auth</span></div></div>
           </article>
           <article class="project prayly reveal">
-            <div class="project-visual"><span class="visual-label">PRAYLY</span><div class="pray-shape p1"></div><div class="pray-shape p2"></div><div class="pray-shape p3"></div><div class="pray-star">✦</div></div>
-            <div class="project-meta"><p>03 — Topluluk</p><h3>Prayly</h3><p>İnsanları anlamlı anlarda birbirine yaklaştıran yalın ve sıcak bir dijital alan.</p><a href="#iletisim" class="project-link">Detayları gör <span>↗</span></a></div>
+            <div class="project-visual"><span class="visual-label">PRAYLY</span><div class="prayly-back" aria-hidden="true"></div><div class="prayly-window" aria-hidden="true"><div class="prayly-moon"></div><svg viewBox="0 0 240 180"><path d="M42 151h156v-15h-19V89h-13v47h-16v-17c0-21-14-36-30-43-16 7-30 22-30 43v17H74V89H61v47H42z" fill="currentColor"/><path d="M111 151v-27a9 9 0 0 1 18 0v27" fill="#17343b"/></svg><span class="prayly-star star-one">✦</span><span class="prayly-star star-two">✦</span></div></div>
+            <div class="project-meta"><p>03 — Offline-first companion</p><h3>Prayly</h3><p>Namaz vakitleri, sensör destekli kıble pusulası, cami günlüğü ve koleksiyon mekaniklerini retro piksel estetiğinde bir araya getiriyor.</p><div class="project-tags"><span>Sensörler</span><span>SQLite</span><span>Flutter</span></div></div>
+          </article>
+          <article class="project audiometer reveal">
+            <div class="project-visual"><span class="visual-label">AUDIO</span><div class="audio-panel" aria-hidden="true"><div class="audio-toolbar"><i></i><i></i><i></i><span></span></div><svg class="audio-chart" viewBox="0 0 300 180"><path d="M20 20H280M20 55H280M20 90H280M20 125H280M20 160H280M20 20V160M85 20V160M150 20V160M215 20V160M280 20V160" fill="none" stroke="#8bb8b8" stroke-width="1" opacity=".45"/><polyline points="28,57 82,64 136,96 190,120 244,94 276,89" fill="none" stroke="#ef7c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="28,86 82,75 136,88 190,104 244,81 276,72" fill="none" stroke="#4b97bb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><g fill="#f6f9f4" stroke="#ef7c6e" stroke-width="4"><circle cx="28" cy="57" r="6"/><circle cx="82" cy="64" r="6"/><circle cx="136" cy="96" r="6"/><circle cx="190" cy="120" r="6"/><circle cx="244" cy="94" r="6"/><circle cx="276" cy="89" r="6"/></g><g fill="#f6f9f4" stroke="#4b97bb" stroke-width="4"><circle cx="28" cy="86" r="5"/><circle cx="82" cy="75" r="5"/><circle cx="136" cy="88" r="5"/><circle cx="190" cy="104" r="5"/><circle cx="244" cy="81" r="5"/><circle cx="276" cy="72" r="5"/></g></svg></div><div class="audio-pulse" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div>
+            <div class="project-meta"><p>04 — Klinik sistem &amp; donanım</p><h3>Odyometre</h3><p>ISO 8253-1 standartlarına göre gerçek zamanlı odyogram çizen; JavaFX arayüzünü Arduino tabanlı ses donanımıyla seri haberleşme üzerinden bağlayan disiplinlerarası sistem.</p><div class="project-tags"><span>JavaFX</span><span>Arduino</span><span>Proteus</span></div></div>
+          </article>
+          <article class="project misal reveal">
+            <div class="project-visual"><span class="visual-label">MİSAL</span><div class="message-bubble b1"></div><div class="message-bubble b2"></div><div class="message-bubble b3"></div></div>
+            <div class="project-meta"><p>05 — Güvenli iletişim</p><h3>Misal</h3><p>Android KeyStore ile RSA-OAEP ve AES-GCM kullanan, WebRTC üzerinden sesli/görüntülü görüşmeler yapan; gerçek zamanlı ve uçtan uca şifreli mesajlaşma platformu.</p><div class="project-tags"><span>Kotlin</span><span>WebRTC</span><span>E2EE</span></div></div>
           </article>
         </div>
       </section>
@@ -94,9 +128,17 @@
       </section>
 
       <section class="contact section" id="iletisim">
-        <p class="eyebrow reveal"><span></span> Yeni bir şey yapalım</p>
-        <h2 class="reveal">Aklındaki fikri<br /><em>konuşalım.</em></h2>
-        <a class="email reveal" href="mailto:merhaba@furkancalik.dev">merhaba@furkancalik.dev <span>↗</span></a>
+        <div class="contact-intro reveal"><p class="eyebrow"><span></span> Yeni bir şey yapalım</p><h2>Aklındaki fikri<br /><em>konuşalım.</em></h2></div>
+        <div class="contact-station reveal">
+          <div class="station-signal"><span></span><span></span><span></span><i>navi bağlantıyı açık tutuyor</i></div>
+          <p>İyi bir fikrin ilk prototipi çoğu zaman bir sohbetle başlar. Birlikte düşünmek istersen bir iz bırak.</p>
+          <div class="contact-links">
+            <a class="contact-card email-card" href="mailto:merhaba@furkancalik.dev"><span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="4" y="8" width="24" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="m5 10 11 8 11-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><small>E-POSTA</small><strong>merhaba@<br />furkancalik.dev</strong><b>↗</b></a>
+            <a class="contact-card github-card" href="https://github.com/furkankisisel" target="_blank" rel="noreferrer"><span class="contact-icon" aria-hidden="true"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="" /></span><small>GITHUB</small><strong>@furkankisisel</strong><b>↗</b></a>
+            <a class="contact-card instagram-card" href="https://www.instagram.com/solo_furkan/" target="_blank" rel="noreferrer"><span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="5" y="5" width="22" height="22" rx="7" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="16" cy="16" r="5" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="23" cy="9" r="1.5" fill="currentColor"/></svg></span><small>INSTAGRAM</small><strong>@solo_furkan</strong><b>↗</b></a>
+            <a class="contact-card linkedin-card" href="https://www.linkedin.com/in/furkan-%C3%A7al%C4%B1k/" target="_blank" rel="noreferrer"><span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="4" fill="currentColor"/><circle cx="9" cy="11" r="2" fill="#fff"/><path d="M7 15h4v10H7zm7 0h4v1.4c.8-1.2 2-1.8 3.5-1.8 3 0 4.5 1.8 4.5 5V25h-4v-5.2c0-1.2-.5-1.9-1.5-1.9-1.2 0-2 .9-2 2.3V25h-4z" fill="#fff"/></svg></span><small>LINKEDIN</small><strong>Furkan Çalık</strong><b>↗</b></a>
+          </div>
+        </div>
       </section>
     </main>
 
