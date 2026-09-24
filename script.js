@@ -260,7 +260,7 @@ if (contactForm) {
     const message = fields.get('message').trim();
     const subject = `Portfolyo üzerinden mesaj — ${name}`;
     const body = `Merhaba Furkan,\n\n${message}\n\n— ${name}\n${email}`;
-    window.location.href = `mailto:merhaba@furkancalik.dev?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:corporate.furkan@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
 }
 
