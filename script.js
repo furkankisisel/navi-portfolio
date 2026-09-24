@@ -95,7 +95,7 @@ const skillChips = [...document.querySelectorAll('.skill-chip')];
 if (skillOrbit && skillChips.length) {
   const trail = skillChips.map(() => ({ x: 0, y: 0 }));
   const pointerHistory = [];
-  const historyGap = 8;
+  const historyGap = 6;
   const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
   const canFollow = finePointer && !reducedMotion;
   let tracking = false;
@@ -138,7 +138,7 @@ if (skillOrbit && skillChips.length) {
 
       trail.forEach((dot, index) => {
         const delayedTarget = pointerHistory[Math.min(index * historyGap, pointerHistory.length - 1)];
-        const easing = index === 0 ? 0.045 : 0.032;
+        const easing = index === 0 ? 0.075 : 0.055;
         dot.x += (delayedTarget.x - dot.x) * easing;
         dot.y += (delayedTarget.y - dot.y) * easing;
         const chip = skillChips[index];
@@ -252,6 +252,7 @@ const navSections = [...document.querySelectorAll('#hakkimda, #beceriler, #proje
 if (navBar && navMenu && heroSection) {
   const brand = navBar.querySelector('.brand');
   const links = [...navMenu.querySelectorAll('a[href^="#"]')];
+  const hoverCapable = window.matchMedia('(hover: hover)');
   let navFrame = 0;
   let navOpen = false;
 
@@ -287,8 +288,32 @@ if (navBar && navMenu && heroSection) {
   const scheduleNavigation = () => {
     if (!navFrame) navFrame = window.requestAnimationFrame(updateNavigation);
   };
-  brand.addEventListener('click', (event) => {
+  navBar.addEventListener('mouseenter', () => {
+    if (!hoverCapable.matches || !navBar.classList.contains('is-scrolled')) return;
+    navOpen = true;
+    updateNavigation();
+  });
+  navBar.addEventListener('mouseleave', () => {
+    if (!hoverCapable.matches || !navOpen) return;
+    navOpen = false;
+    updateNavigation();
+  });
+  navBar.addEventListener('focusin', () => {
     if (!navBar.classList.contains('is-scrolled')) return;
+    navOpen = true;
+    updateNavigation();
+  });
+  navBar.addEventListener('focusout', () => {
+    window.requestAnimationFrame(() => {
+      if (!hoverCapable.matches && navBar.contains(document.activeElement)) return;
+      if (!navBar.contains(document.activeElement) && navOpen) {
+        navOpen = false;
+        updateNavigation();
+      }
+    });
+  });
+  brand.addEventListener('click', (event) => {
+    if (!navBar.classList.contains('is-scrolled') || hoverCapable.matches) return;
     event.preventDefault();
     navOpen = !navOpen;
     updateNavigation();
