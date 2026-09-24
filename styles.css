@@ -393,6 +393,7 @@ footer{width:calc(100% - 40px);display:grid;gap:12px}
 .skill-chip.git{background:#fff0eb}
 .skill-chip.actions{background:#edf4ff}
 .skill-chip.android{background:#edf9ed}
+.skill-chip.python{background:#f4f7dc}.skill-chip.supabase{background:#e8fbf1}.skill-chip.postgres{background:#e8f2fb}.skill-chip.sqlite{background:#e9f5fb}.skill-chip.linux{background:#f8f6e8}.skill-chip.rust{background:#fff0e8}.skill-chip.docker{background:#e8f4ff}.skill-chip.chatgpt{background:#e8f6f2}.skill-chip.claude{background:#fff0e8}.skill-chip.canva{background:#e8f9fb}
 @media(max-width:760px){.section.skills{padding:10px 0 90px}.skill-orbit{height:670px;min-height:670px}.skill-orbit .skill-chip{left:var(--mobile-x);top:var(--mobile-y);right:auto;bottom:auto;width:64px;height:64px;border-radius:18px;padding:12px}}
 
 /* Click-to-scatter icons and an unboxed, viewport-wide cursor path. */
