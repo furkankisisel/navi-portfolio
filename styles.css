@@ -442,7 +442,19 @@ footer{width:calc(100% - 40px);display:grid;gap:12px}
 .contact-card{min-height:126px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:7px}
 .contact-card strong{margin-top:auto}
 .contact-icon{align-self:flex-start}
+.contact-form{margin:30px 0 12px;padding:18px;border:1px solid rgba(16,36,42,.14);border-radius:14px;background:rgba(255,255,255,.4)}
+.contact-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.contact-form label{display:grid;gap:7px;color:#376065;font:500 .57rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.contact-form input,.contact-form textarea{width:100%;border:1px solid rgba(16,36,42,.18);border-radius:9px;padding:11px 12px;background:rgba(255,255,255,.7);color:var(--ink);font:400 .9rem var(--sans);letter-spacing:0;text-transform:none;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;resize:vertical}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:#809194}
+.contact-form input:focus,.contact-form textarea:focus{border-color:#0f8f80;background:#fff;box-shadow:0 0 0 3px rgba(110,229,208,.25)}
+.contact-form-message{margin-top:12px}
+.contact-form-footer{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:13px;color:#0f8f80;font:500 .58rem var(--mono);letter-spacing:.04em}
+.contact-form button{border:0;border-radius:999px;padding:10px 14px;background:var(--ink);color:#fff;cursor:pointer;font:600 .72rem var(--sans);transition:transform .2s,background .2s}
+.contact-form button:hover{background:#0f8f80;transform:translateY(-2px)}
+.contact-form button b{color:var(--lime);font-size:1rem;margin-left:3px}
 @media(max-width:760px){.skill-message{width:min(300px,72vw);font-size:clamp(1.5rem,7vw,2rem)}.contact-links{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-card{min-height:116px;padding:12px}.contact-icon{width:25px;height:25px}.contact-icon svg,.contact-icon img{width:24px;height:24px}.contact-card strong{font-size:.7rem}.contact-card small{font-size:.46rem}}
+@media(max-width:760px){.contact-form{padding:14px;margin-top:25px}.contact-form-row{grid-template-columns:1fr}.contact-form-footer{align-items:flex-start;flex-direction:column}.contact-form button{width:100%}}
 @media(prefers-reduced-motion:reduce){.skill-orbit.is-exploding .skill-chip{animation:none;transform:translate3d(var(--scatter-x),var(--scatter-y),0)}}
 
 /* The old two-column chip grid was shifting every icon to one side. */

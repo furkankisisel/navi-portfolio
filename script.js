@@ -249,6 +249,21 @@ const navMenu = navBar?.querySelector('nav');
 const heroSection = document.querySelector('.hero');
 const navSections = [...document.querySelectorAll('#hakkimda, #beceriler, #projeler, #iletisim')];
 
+const contactForm = document.querySelector('[data-contact-form]');
+if (contactForm) {
+  contactForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!contactForm.reportValidity()) return;
+    const fields = new FormData(contactForm);
+    const name = fields.get('name').trim();
+    const email = fields.get('email').trim();
+    const message = fields.get('message').trim();
+    const subject = `Portfolyo üzerinden mesaj — ${name}`;
+    const body = `Merhaba Furkan,\n\n${message}\n\n— ${name}\n${email}`;
+    window.location.href = `mailto:merhaba@furkancalik.dev?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+}
+
 if (navBar && navMenu && heroSection) {
   const brand = navBar.querySelector('.brand');
   const links = [...navMenu.querySelectorAll('a[href^="#"]')];
