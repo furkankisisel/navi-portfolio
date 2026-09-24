@@ -490,6 +490,17 @@ footer{width:calc(100% - 40px);display:grid;gap:12px}
 .social-station .contact-card{min-height:118px}
 @media(max-width:760px){.contact{display:block;padding-bottom:62px}.contact-intro{padding-top:0}.contact-form-panel{margin-top:34px;padding:22px}.social-station{display:block;padding:34px 0 90px}.social-heading>p:last-child{max-width:340px}.social-station .contact-links{margin-top:28px;grid-template-columns:repeat(2,minmax(0,1fr))}.social-station .contact-card{min-height:112px}}
 
+/* Form fields belong to Navi's station instead of looking like browser defaults. */
+.contact-form-row,.contact-form-message{gap:16px}
+.contact-form label{position:relative;padding-top:9px}
+.contact-form label>span{position:absolute;top:0;left:15px;z-index:1;padding:2px 8px;border:1px solid rgba(15,143,128,.2);border-radius:999px;background:#e5f3e5;color:#176d68;font:600 .53rem var(--mono);letter-spacing:.09em;text-transform:uppercase}
+.contact-form input,.contact-form textarea{margin-top:0;border:1px solid rgba(18,88,82,.2);border-radius:16px;padding:21px 17px 13px;background:linear-gradient(135deg,rgba(255,255,255,.7),rgba(232,249,239,.52));box-shadow:inset 0 1px 0 rgba(255,255,255,.92),0 9px 20px rgba(18,88,82,.06);font:500 1rem/1.35 var(--sans);color:#173b3a}
+.contact-form textarea{padding-top:23px;background-image:linear-gradient(135deg,rgba(255,255,255,.7),rgba(232,249,239,.52)),repeating-linear-gradient(0deg,transparent 0 31px,rgba(18,88,82,.055) 32px);background-blend-mode:normal}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:#77979a;opacity:1}
+.contact-form input:focus,.contact-form textarea:focus{border-color:#0f8f80;background:#f8fff9;box-shadow:0 0 0 4px rgba(110,229,208,.2),inset 0 1px 0 #fff}
+.contact-form label:focus-within>span{border-color:#0f8f80;background:#d4f8e7;color:#0c5e58}
+@media(max-width:760px){.contact-form label>span{left:12px}.contact-form input,.contact-form textarea{border-radius:14px;padding-left:14px;padding-right:14px}}
+
 /* Project-specific illustrations in the same soft, layered geometric language. */
 .project-visual{isolation:isolate}
 .mira .project-visual{background:#deead5}
