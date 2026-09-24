@@ -1,0 +1,35 @@
+.hero-copy{position:relative;z-index:3}
+.webgl-canvas{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;transition:opacity .5s}
+.webgl-canvas canvas{display:block;width:100%!important;height:100%!important;outline:none}
+.webgl-canvas.ready{opacity:1}
+.navi-stage.has-3d .navi{opacity:0;pointer-events:none}
+.navi-controls{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);display:flex;justify-content:center;gap:7px;z-index:5;width:max-content;max-width:100%;flex-wrap:wrap}
+.navi-controls button{font:500 11px var(--sans);color:var(--ink);background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:24px;padding:9px 12px;cursor:pointer}
+.navi-controls button:hover{background:var(--mint)}
+.navi-controls button:focus-visible{outline:2px solid #0f8f80;outline-offset:3px}
+.navi-hint{width:100%;text-align:center}
+.navi-dock{pointer-events:none}
+.navi-dock-hero{position:absolute;inset:24% 0 18%}
+.navi-dock-flow{height:230px;width:min(460px,100%);margin:24px 0 0 auto;position:relative}
+.navi-dock-project{position:absolute;inset:50px 12px 12px}
+.navi-dock-quote{position:absolute;inset:22px 18px 14px 20px}
+.navi-dock-rail{position:fixed;right:-46px;bottom:10px;width:170px;height:190px;pointer-events:none;z-index:3}
+.navi-dock-rail::before{content:"";position:absolute;right:calc(37px - var(--platform-shift-x,0px));bottom:calc(25px - var(--platform-shift-y,0px));width:128px;height:16px;border-radius:50%;background:radial-gradient(ellipse,rgba(16,36,42,.22),rgba(16,36,42,.07) 50%,transparent 74%);filter:blur(3px);opacity:0;transform:scale(1);transition:opacity .28s ease,transform .28s ease}
+.navi-dock-rail::after{content:"";position:absolute;right:calc(32px - var(--platform-shift-x,0px));bottom:calc(37px - var(--platform-shift-y,0px));width:138px;height:21px;border-radius:50%;border:1px solid rgba(38,108,103,.24);background:radial-gradient(ellipse at 50% 42%,rgba(232,255,247,.94) 0 43%,rgba(153,221,203,.9) 46% 63%,rgba(70,116,119,.9) 67% 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.72),0 5px 0 -3px rgba(16,36,42,.18),0 9px 17px rgba(16,36,42,.11),0 0 15px rgba(150,244,211,.18);opacity:0;transform:scale(1);transition:opacity .28s ease,transform .28s ease,background .28s ease,box-shadow .28s ease}
+.navi-dock-rail.is-active::before{opacity:.86}
+.navi-dock-rail.is-active::after{opacity:1}
+.navi-dock-rail.is-walking::before{opacity:.28;transform:scale(.78)}
+.navi-dock-rail.is-walking::after{opacity:.62;background:radial-gradient(ellipse,transparent 0 45%,rgba(172,255,226,.22) 48% 56%,rgba(67,183,165,.82) 59% 70%,transparent 73%);box-shadow:0 0 17px rgba(90,225,195,.28);animation:navi-energy-step .72s ease-in-out infinite}
+.navi-dock-rail.is-greeting::before{opacity:.16;transform:scale(.68)}
+.navi-dock-rail.is-greeting::after{opacity:.44;background:radial-gradient(ellipse,transparent 0 46%,rgba(244,255,179,.42) 49% 57%,rgba(107,227,196,.7) 60% 70%,transparent 73%);box-shadow:0 0 20px rgba(190,255,184,.32);animation:navi-energy-hover .95s ease-in-out infinite}
+.navi-dock-rail.is-landing::before{animation:navi-shadow-land .58s ease-out both}
+.navi-dock-rail.is-landing::after{animation:navi-energy-land .58s ease-out both}
+@keyframes navi-energy-step{0%,100%{transform:scale(.86);filter:brightness(.92)}50%{transform:scale(1.04);filter:brightness(1.22)}}
+@keyframes navi-energy-hover{0%,100%{transform:scale(.82);filter:brightness(.92)}50%{transform:scale(.96);filter:brightness(1.28)}}
+@keyframes navi-energy-land{0%{opacity:.32;transform:scale(.7);filter:brightness(1.75)}45%{opacity:1;transform:scale(1.18);filter:brightness(1.4)}100%{opacity:1;transform:scale(1);filter:brightness(1)}}
+@keyframes navi-shadow-land{0%{opacity:.1;transform:scale(.58)}55%{opacity:.94;transform:scale(1.12)}100%{opacity:.86;transform:scale(1)}}
+.navi-enabled .mini-navi img{visibility:hidden}
+.navi-enabled .mini-navi{min-height:280px}
+.navi-controls,.navi-note{z-index:6}
+@media(max-width:760px){.navi-dock-hero{inset:18% 0 26%}.navi-dock-flow{height:210px}.navi-dock-quote{inset:12px}.navi-dock-rail{display:none}}
+@media(prefers-reduced-motion:reduce){.reveal{transition:none}.marquee-track,.pulse,.navi-dock-rail::before,.navi-dock-rail::after{animation:none!important}}

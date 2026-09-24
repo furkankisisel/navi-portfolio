@@ -1,0 +1,75 @@
+/* Navi's firefly: a living pointer that becomes a high-contrast reading light. */
+.cursor-orb {
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  opacity: 1;
+  visibility: hidden;
+  z-index: 40;
+  background: transparent;
+  mix-blend-mode: normal;
+  will-change: transform, width, height, opacity;
+  transition: width .28s cubic-bezier(.2,.8,.2,1), height .28s cubic-bezier(.2,.8,.2,1);
+}
+.cursor-orb.is-visible { visibility: visible; }
+.cursor-orb::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: #efff9b;
+  box-shadow: 0 0 4px 2px rgba(239,255,155,.95), 0 0 14px 7px rgba(202,255,104,.62), 0 0 30px 12px rgba(110,229,208,.30);
+  animation: firefly-breathe 1.7s ease-in-out infinite, firefly-drift 3.2s ease-in-out infinite;
+  z-index: 2;
+}
+.cursor-orb::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.38);
+  box-shadow: inset 0 0 18px rgba(255,255,255,.09), 0 0 18px rgba(110,229,208,.18);
+  transition: width .28s cubic-bezier(.2,.8,.2,1), height .28s cubic-bezier(.2,.8,.2,1), opacity .2s ease;
+  z-index: 1;
+}
+.cursor-orb.is-reading {
+  width: 88px;
+  height: 88px;
+  background: #fff;
+  mix-blend-mode: difference;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.5), 0 0 18px rgba(255,255,255,.24);
+}
+.cursor-orb.is-reading::before {
+  width: 7px;
+  height: 7px;
+  box-shadow: 0 0 4px 2px rgba(255,255,210,.9), 0 0 12px 5px rgba(202,255,104,.48), 0 0 25px 10px rgba(110,229,208,.2);
+}
+.cursor-orb.is-reading::after {
+  width: 82px;
+  height: 82px;
+  opacity: 1;
+}
+@keyframes firefly-breathe {
+  0%, 100% { filter: brightness(1); opacity: .9; }
+  50% { filter: brightness(1.35); opacity: 1; }
+}
+@keyframes firefly-drift {
+  0%, 100% { margin: 0; }
+  30% { margin: -2px 0 0 2px; }
+  65% { margin: 1px 0 0 -2px; }
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-orb { display: none; }
+}
