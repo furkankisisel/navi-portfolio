@@ -11,15 +11,23 @@ const finePointer = window.matchMedia('(pointer: fine)').matches;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const readableSelector = [
   'h1', 'h2', 'h3', 'p', 'a', 'button', '.eyebrow', '.visual-label',
-  '.navi-note', '.navi-hint', '.marquee-track', 'footer'
+  '.navi-note', '.navi-hint'
 ].join(',');
 
 const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 const firefly = { x: pointer.x, y: pointer.y };
+let lensTarget = null;
 
-function isOverReadableText(x, y) {
+function getReadableTarget(x, y) {
   const target = document.elementFromPoint(x, y);
-  return Boolean(target && target.closest(readableSelector));
+  return target?.closest(readableSelector) || null;
+}
+
+function updateLensTarget(nextTarget) {
+  if (lensTarget === nextTarget) return;
+  lensTarget?.classList.remove('is-lens-target');
+  lensTarget = nextTarget;
+  lensTarget?.classList.add('is-lens-target');
 }
 
 function updateFallbackNavi(event) {
@@ -38,12 +46,15 @@ if (orb && finePointer) {
     pointer.x = event.clientX;
     pointer.y = event.clientY;
     orb.classList.add('is-visible');
-    orb.classList.toggle('is-reading', isOverReadableText(event.clientX, event.clientY));
+    const readableTarget = getReadableTarget(event.clientX, event.clientY);
+    orb.classList.toggle('is-reading', Boolean(readableTarget));
+    updateLensTarget(readableTarget);
     updateFallbackNavi(event);
   }, { passive: true });
 
   document.documentElement.addEventListener('mouseleave', () => {
     orb.classList.remove('is-visible', 'is-reading');
+    updateLensTarget(null);
   });
 
   document.documentElement.addEventListener('mouseenter', () => {

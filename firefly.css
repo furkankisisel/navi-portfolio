@@ -1,4 +1,4 @@
-/* Navi's firefly: a living pointer that becomes a high-contrast reading light. */
+/* Navi's firefly: a living pointer that becomes a soft reading lens. */
 .cursor-orb {
   left: 0;
   top: 0;
@@ -45,11 +45,11 @@
   z-index: 1;
 }
 .cursor-orb.is-reading {
-  width: 88px;
-  height: 88px;
-  background: #fff;
-  mix-blend-mode: difference;
-  box-shadow: 0 0 0 1px rgba(255,255,255,.5), 0 0 18px rgba(255,255,255,.24);
+  width: 74px;
+  height: 74px;
+  background: rgba(255,255,255,.13);
+  border: 1px solid rgba(20,112,101,.62);
+  box-shadow: 0 0 0 5px rgba(230,255,222,.18), 0 10px 24px rgba(21,99,93,.15), inset 0 0 18px rgba(255,255,255,.35);
 }
 .cursor-orb.is-reading::before {
   width: 7px;
@@ -57,10 +57,22 @@
   box-shadow: 0 0 4px 2px rgba(255,255,210,.9), 0 0 12px 5px rgba(202,255,104,.48), 0 0 25px 10px rgba(110,229,208,.2);
 }
 .cursor-orb.is-reading::after {
-  width: 82px;
-  height: 82px;
+  width: 66px;
+  height: 66px;
   opacity: 1;
+  border-color: rgba(255,255,255,.76);
+  background: radial-gradient(circle,rgba(255,255,255,.2),rgba(230,255,222,.05) 68%,transparent 70%);
+  backdrop-filter: saturate(1.12);
 }
+.is-lens-target {
+  position: relative;
+  z-index: 1;
+  transform: scale(1.035);
+  transform-origin: center;
+  transition: transform .18s cubic-bezier(.2,.8,.2,1);
+}
+.is-lens-target:is(a,button,.eyebrow,.visual-label,.navi-note,.navi-hint) { display: inline-block; }
+.project-meta>p.is-lens-target,.section-heading>p.is-lens-target,.contact-form label.is-lens-target { transform-origin: left center; }
 @keyframes firefly-breathe {
   0%, 100% { filter: brightness(1); opacity: .9; }
   50% { filter: brightness(1.35); opacity: 1; }
