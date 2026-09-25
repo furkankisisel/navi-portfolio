@@ -17,6 +17,7 @@ const readableSelector = [
 const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 const firefly = { x: pointer.x, y: pointer.y };
 let lensTarget = null;
+let lensCopy = null;
 
 function getReadableTarget(x, y) {
   const target = document.elementFromPoint(x, y);
@@ -25,9 +26,28 @@ function getReadableTarget(x, y) {
 
 function updateLensTarget(nextTarget) {
   if (lensTarget === nextTarget) return;
-  lensTarget?.classList.remove('is-lens-target');
+  lensCopy?.remove();
+  lensCopy = null;
   lensTarget = nextTarget;
-  lensTarget?.classList.add('is-lens-target');
+  if (!lensTarget || !orb) return;
+
+  lensCopy = lensTarget.cloneNode(true);
+  lensCopy.classList.add('cursor-lens-copy');
+  lensCopy.removeAttribute('id');
+  lensCopy.setAttribute('aria-hidden', 'true');
+  orb.append(lensCopy);
+}
+
+function positionLensCopy() {
+  if (!lensTarget || !lensCopy || !orb) return;
+  const targetRect = lensTarget.getBoundingClientRect();
+  const zoom = 1.13;
+  const radius = orb.offsetWidth / 2;
+  lensCopy.style.width = `${targetRect.width}px`;
+  lensCopy.style.height = `${targetRect.height}px`;
+  lensCopy.style.left = `${radius + (targetRect.left - firefly.x) * zoom}px`;
+  lensCopy.style.top = `${radius + (targetRect.top - firefly.y) * zoom}px`;
+  lensCopy.style.transform = `scale(${zoom})`;
 }
 
 function updateFallbackNavi(event) {
@@ -66,6 +86,7 @@ if (orb && finePointer) {
     firefly.x += (pointer.x - firefly.x) * ease;
     firefly.y += (pointer.y - firefly.y) * ease;
     orb.style.transform = `translate3d(${firefly.x}px, ${firefly.y}px, 0) translate(-50%, -50%)`;
+    positionLensCopy();
     window.requestAnimationFrame(followFirefly);
   };
 
@@ -121,6 +142,9 @@ if (skillOrbit && skillChips.length) {
   });
   let frame = 0;
   let lastPointer = null;
+  let cachedNodes = [];
+  let lastNodeMeasure = 0;
+  let lastNetworkDraw = 0;
 
   const positionChips = () => {
     const mobile = window.innerWidth <= 760;
@@ -143,18 +167,27 @@ if (skillOrbit && skillChips.length) {
   const drawNetwork = () => {
     frame = 0;
     if (!lastPointer || !finePointer || reducedMotion) return;
+    const now = performance.now();
+    if (now - lastNetworkDraw < 34) {
+      frame = window.requestAnimationFrame(drawNetwork);
+      return;
+    }
+    lastNetworkDraw = now;
     const rect = skillOrbit.getBoundingClientRect();
     if (lastPointer.x < rect.left || lastPointer.x > rect.right || lastPointer.y < rect.top || lastPointer.y > rect.bottom) {
       clearNetwork();
       return;
     }
     const pointer = { x: lastPointer.x - rect.left, y: lastPointer.y - rect.top };
-    const nodes = skillChips.map((chip, index) => {
-      const chipRect = chip.getBoundingClientRect();
-      const x = chipRect.left - rect.left + chipRect.width / 2;
-      const y = chipRect.top - rect.top + chipRect.height / 2;
-      return { chip, index, x, y, distance: Math.hypot(x - pointer.x, y - pointer.y) };
-    }).filter((node) => node.distance < 310).sort((a, b) => a.distance - b.distance).slice(0, 6);
+    if (!cachedNodes.length || now - lastNodeMeasure > 180) {
+      cachedNodes = skillChips.map((chip, index) => {
+        const chipRect = chip.getBoundingClientRect();
+        return { chip, index, x: chipRect.left - rect.left + chipRect.width / 2, y: chipRect.top - rect.top + chipRect.height / 2 };
+      });
+      lastNodeMeasure = now;
+    }
+    const nodes = cachedNodes.map((node) => ({ ...node, distance: Math.hypot(node.x - pointer.x, node.y - pointer.y) }))
+      .filter((node) => node.distance < 310).sort((a, b) => a.distance - b.distance).slice(0, 5);
 
     signal.style.setProperty('--signal-x', `${pointer.x}px`);
     signal.style.setProperty('--signal-y', `${pointer.y}px`);
@@ -191,8 +224,10 @@ if (skillOrbit && skillChips.length) {
     scheduleNetwork();
   }, { passive: true });
   skillOrbit.addEventListener('pointerleave', clearNetwork);
+  skillOrbit.addEventListener('pointerenter', () => { lastNodeMeasure = 0; });
   window.addEventListener('resize', () => {
     positionChips();
+    lastNodeMeasure = 0;
     scheduleNetwork();
   });
 
