@@ -423,6 +423,30 @@ footer{width:calc(100% - 40px);display:grid;gap:12px}
 .skill-orbit.is-scattering .skill-chip{transition:none}
 @keyframes skill-explode{0%{transform:translate3d(var(--burst-from-x),var(--burst-from-y),0) scale(.82) rotate(0)}28%{transform:translate3d(var(--burst-mid-x),var(--burst-mid-y),0) scale(1.23) rotate(-16deg)}66%{transform:translate3d(var(--scatter-x),var(--scatter-y),0) scale(.92) rotate(var(--scatter-r))}100%{transform:translate3d(var(--scatter-x),var(--scatter-y),0) scale(1) rotate(var(--scatter-r))}}
 
+/* Technology constellation: proximity reveals a small, living network. */
+.section.skills{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,rgba(210,247,224,.48),transparent 64%)}
+.skill-orbit{height:min(78vh,700px);min-height:620px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.63),rgba(244,243,235,.15) 53%,transparent 73%)}
+.skill-orbit::before{content:"";display:block;width:min(52vw,510px);aspect-ratio:1;left:50%;top:50%;border:1px solid rgba(19,118,105,.12);border-radius:50%;transform:translate(-50%,-50%);animation:constellation-breathe 7s ease-in-out infinite}
+.skill-orbit::after{content:"";display:block;width:min(31vw,300px);aspect-ratio:1;left:50%;top:50%;border:1px dashed rgba(255,123,102,.18);border-radius:50%;transform:translate(-50%,-50%);animation:constellation-breathe 7s ease-in-out infinite reverse}
+.constellation-lines{position:absolute;inset:0;z-index:1;width:100%;height:100%;overflow:visible;pointer-events:none}
+.constellation-lines line{stroke:rgba(20,142,126,.58);stroke-width:1.25;stroke-linecap:round;stroke-dasharray:4 8;opacity:0;transition:opacity .24s ease;animation:constellation-dash 4s linear infinite}
+.constellation-lines line.is-visible{opacity:.86}
+.constellation-signal{position:absolute;z-index:2;left:var(--signal-x,50%);top:var(--signal-y,50%);width:13px;height:13px;border:2px solid #dcff70;border-radius:50%;background:#f5ffb2;box-shadow:0 0 0 7px rgba(218,255,112,.14),0 0 24px rgba(185,237,91,.82);opacity:0;transform:translate(-50%,-50%) scale(.4);transition:opacity .18s ease,transform .25s cubic-bezier(.2,.85,.2,1);pointer-events:none}
+.constellation-signal::after{content:"";position:absolute;inset:-10px;border:1px solid rgba(20,142,126,.48);border-radius:inherit;animation:constellation-ping 1.7s ease-out infinite}
+.constellation-signal.is-visible{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.skill-orbit .skill-chip{left:var(--const-x)!important;top:var(--const-y)!important;right:auto!important;bottom:auto!important;z-index:3;opacity:0;transform:translate(-50%,-50%) scale(.45) rotate(-18deg)!important;animation:none;transition:opacity .48s ease,transform .72s cubic-bezier(.17,.92,.3,1.15),filter .25s ease;transition-delay:calc(var(--order) * 44ms);will-change:transform}
+.skill-orbit.is-revealed .skill-chip{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)!important;animation:constellation-float var(--float-duration,7s) ease-in-out var(--float-delay,0s) infinite}
+.skill-orbit .skill-chip.is-near{z-index:4;filter:brightness(1.05) saturate(1.15);animation-play-state:paused;transform:translate(-50%,-50%) scale(1.16) rotate(0)!important}
+.skill-orbit.is-reflowing .skill-chip{animation:none!important;transition:left .76s cubic-bezier(.18,.84,.22,1.08),top .76s cubic-bezier(.18,.84,.22,1.08),transform .42s ease,filter .25s ease;transition-delay:var(--reflow-delay,0ms)}
+.skill-message{z-index:2;text-shadow:0 8px 30px rgba(244,243,235,.9);transition:opacity .25s ease,transform .25s ease}
+.skill-orbit:has(.constellation-signal.is-visible) .skill-message{opacity:.46;transform:translate(-50%,-50%) scale(.97)}
+@keyframes constellation-float{0%,100%{translate:0 0}35%{translate:7px -12px}68%{translate:-8px 6px}}
+@keyframes constellation-breathe{0%,100%{opacity:.55;scale:1}50%{opacity:1;scale:1.06}}
+@keyframes constellation-dash{to{stroke-dashoffset:-48}}
+@keyframes constellation-ping{0%{scale:.35;opacity:.9}100%{scale:1.35;opacity:0}}
+@media(max-width:760px){.skill-orbit{height:620px;min-height:620px}.skill-orbit::before{width:92vw}.skill-orbit::after{width:57vw}.skill-orbit .skill-chip{width:62px;height:62px;padding:12px}.skill-orbit .skill-chip.is-near{transform:translate(-50%,-50%) scale(1.1)!important}.skill-message{width:min(280px,72vw);font-size:clamp(1.45rem,8vw,2.2rem)}}
+@media(prefers-reduced-motion:reduce){.skill-orbit::before,.skill-orbit::after,.constellation-lines line,.constellation-signal::after,.skill-orbit.is-revealed .skill-chip{animation:none!important}.skill-orbit .skill-chip{opacity:1;transform:translate(-50%,-50%)!important}}
+
 /* Compact, identifiable ways to connect. */
 .contact-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .contact-card{min-height:108px;padding:13px 15px;border-radius:14px;display:grid;grid-template-columns:32px minmax(0,1fr);grid-template-rows:16px auto;align-content:center;column-gap:10px;row-gap:4px;box-shadow:none}

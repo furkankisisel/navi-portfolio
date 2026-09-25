@@ -104,191 +104,124 @@ const skillOrbit = document.querySelector('.skill-orbit');
 const skillChips = [...document.querySelectorAll('.skill-chip')];
 
 if (skillOrbit && skillChips.length) {
-  const trail = skillChips.map(() => ({ x: 0, y: 0 }));
-  const pointerHistory = [];
-  const historyGap = 4;
-  let chipMetrics = [];
-  const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-  const canFollow = finePointer && !reducedMotion;
-  let tracking = false;
-  let skillState = 'appearing';
-  let frame = 0;
-  let scatterTimer;
-  let initialGatherTimer;
-  let scatterAnchor = { x: 0, y: 0 };
-  let orbitRect;
-  let mouseDirty = false;
-  const renderedTrail = skillChips.map(() => ({ x: NaN, y: NaN }));
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const network = document.createElementNS(svgNS, 'svg');
+  network.setAttribute('class', 'constellation-lines');
+  network.setAttribute('aria-hidden', 'true');
+  skillOrbit.prepend(network);
+  const signal = document.createElement('span');
+  signal.className = 'constellation-signal';
+  signal.setAttribute('aria-hidden', 'true');
+  skillOrbit.append(signal);
 
-  skillChips.forEach((chip, index) => chip.style.setProperty('--order', index));
-  const refreshChipMetrics = () => {
-    chipMetrics = skillChips.map((chip) => ({ halfWidth: chip.offsetWidth / 2, halfHeight: chip.offsetHeight / 2 }));
-  };
-  const refreshOrbitRect = () => {
-    orbitRect = skillOrbit.getBoundingClientRect();
-    return orbitRect;
-  };
-  const scheduleFollow = () => {
-    if (!frame && tracking) frame = window.requestAnimationFrame(follow);
-  };
-  refreshChipMetrics();
-  refreshOrbitRect();
-  window.addEventListener('pointermove', (event) => {
-    if (event.pointerType === 'touch') return;
-    mouse.x = event.clientX;
-    mouse.y = event.clientY;
-    mouseDirty = true;
-    if (skillState === 'scattered' && Math.hypot(mouse.x - scatterAnchor.x, mouse.y - scatterAnchor.y) > 18) {
-      gatherFromScatter();
-    }
-    scheduleFollow();
-  }, { passive: true });
-
-  const inView = (rect) => rect.bottom > window.innerHeight * 0.7 && rect.top < window.innerHeight * 0.8;
-  const updateSkillVisibility = () => {
-    const rect = refreshOrbitRect();
-    skillOrbit.classList.toggle('is-offscreen', !inView(rect));
-    if (tracking && inView(rect)) {
-      mouseDirty = true;
-      scheduleFollow();
-    }
-  };
-  window.addEventListener('scroll', updateSkillVisibility, { passive: true });
-  window.addEventListener('resize', () => {
-    refreshChipMetrics();
-    updateSkillVisibility();
+  const lines = Array.from({ length: 11 }, () => {
+    const line = document.createElementNS(svgNS, 'line');
+    network.append(line);
+    return line;
   });
-  updateSkillVisibility();
+  let frame = 0;
+  let lastPointer = null;
 
-  const follow = () => {
-    frame = 0;
-    if (tracking && orbitRect && inView(orbitRect) && (mouseDirty || pointerHistory.length)) {
-      const radius = chipMetrics[0].halfWidth + 8;
-      if (mouseDirty || !pointerHistory.length) {
-        const x = Math.max(radius, Math.min(window.innerWidth - radius, mouse.x)) - orbitRect.left;
-        const y = Math.max(radius, Math.min(window.innerHeight - radius, mouse.y)) - orbitRect.top;
-        pointerHistory.unshift({ x, y });
-        pointerHistory.length = Math.min(pointerHistory.length, skillChips.length * historyGap + 1);
-        mouseDirty = false;
-      }
-
-      let settling = false;
-      trail.forEach((dot, index) => {
-        const delayedTarget = pointerHistory[Math.min(index * historyGap, pointerHistory.length - 1)];
-        const easing = index === 0 ? 0.13 : 0.09;
-        const deltaX = delayedTarget.x - dot.x;
-        const deltaY = delayedTarget.y - dot.y;
-        dot.x += deltaX * easing;
-        dot.y += deltaY * easing;
-        if (Math.abs(deltaX) > .2 || Math.abs(deltaY) > .2) settling = true;
-        const outputX = dot.x - chipMetrics[index].halfWidth;
-        const outputY = dot.y - chipMetrics[index].halfHeight;
-        if (Math.abs(outputX - renderedTrail[index].x) > .1 || Math.abs(outputY - renderedTrail[index].y) > .1) {
-          skillChips[index].style.setProperty('--snake-x', `${outputX}px`);
-          skillChips[index].style.setProperty('--snake-y', `${outputY}px`);
-          renderedTrail[index] = { x: outputX, y: outputY };
-        }
-      });
-      if (settling) scheduleFollow();
-    }
-  };
-
-  const gatherFromScatter = () => {
-    if (skillState !== 'scattered') return;
-    const rect = skillOrbit.getBoundingClientRect();
-    skillChips.forEach((chip, index) => {
-      const chipRect = chip.getBoundingClientRect();
-      trail[index].x = chipRect.left - rect.left + chipRect.width / 2;
-      trail[index].y = chipRect.top - rect.top + chipRect.height / 2;
-      chip.style.setProperty('--snake-x', `${trail[index].x - chipMetrics[index].halfWidth}px`);
-      chip.style.setProperty('--snake-y', `${trail[index].y - chipMetrics[index].halfHeight}px`);
-    });
-    skillOrbit.classList.remove('is-scattering');
-    skillOrbit.classList.add('is-gathering');
-    pointerHistory.length = 0;
-    skillState = 'following';
-    tracking = true;
-    mouseDirty = true;
-    scheduleFollow();
-  };
-
-  const scatter = () => {
-    if (reducedMotion || !skillOrbit.classList.contains('is-revealed')) return;
-    window.clearTimeout(scatterTimer);
-    window.clearTimeout(initialGatherTimer);
-    tracking = false;
-    pointerHistory.length = 0;
-    skillState = 'exploding';
-    scatterAnchor = { x: mouse.x, y: mouse.y };
-    const rect = skillOrbit.getBoundingClientRect();
+  const positionChips = () => {
     const mobile = window.innerWidth <= 760;
     skillChips.forEach((chip, index) => {
-      const chipRect = chip.getBoundingClientRect();
-      const fromX = chipRect.left - rect.left + chipRect.width / 2 - chip.offsetWidth / 2;
-      const fromY = chipRect.top - rect.top + chipRect.height / 2 - chip.offsetHeight / 2;
       const styles = getComputedStyle(chip);
-      const percentX = parseFloat(styles.getPropertyValue(mobile ? '--mobile-x' : '--start-x'));
-      const percentY = parseFloat(styles.getPropertyValue(mobile ? '--mobile-y' : '--start-y'));
-      const x = Math.max(8, Math.min(rect.width - chip.offsetWidth - 8, rect.width * (percentX + (Math.random() - .5) * 6) / 100));
-      const y = Math.max(8, Math.min(rect.height - chip.offsetHeight - 8, rect.height * (percentY + (Math.random() - .5) * 6) / 100));
-      const angle = Math.atan2(y - fromY, x - fromX) || index * Math.PI * 2 / skillChips.length;
-      const impulse = 34 + Math.random() * 24;
-      chip.style.setProperty('--burst-from-x', `${fromX}px`);
-      chip.style.setProperty('--burst-from-y', `${fromY}px`);
-      chip.style.setProperty('--burst-mid-x', `${x + Math.cos(angle) * impulse}px`);
-      chip.style.setProperty('--burst-mid-y', `${y + Math.sin(angle) * impulse}px`);
-      chip.style.setProperty('--scatter-x', `${x}px`);
-      chip.style.setProperty('--scatter-y', `${y}px`);
-      chip.style.setProperty('--scatter-r', `${(Math.random() - .5) * 22}deg`);
+      chip.style.setProperty('--order', index);
+      chip.style.setProperty('--const-x', styles.getPropertyValue(mobile ? '--mobile-x' : '--start-x'));
+      chip.style.setProperty('--const-y', styles.getPropertyValue(mobile ? '--mobile-y' : '--start-y'));
+      chip.style.setProperty('--float-delay', `${-index * .41}s`);
+      chip.style.setProperty('--float-duration', `${6.5 + (index % 5) * .72}s`);
     });
-    skillOrbit.classList.remove('is-gathering', 'is-scattering', 'is-exploding');
-    void skillOrbit.offsetWidth;
-    skillOrbit.classList.add('is-exploding');
-
-    scatterTimer = window.setTimeout(() => {
-      skillOrbit.classList.remove('is-exploding');
-      skillOrbit.classList.add('is-scattering');
-      skillState = 'scattered';
-      if (Math.hypot(mouse.x - scatterAnchor.x, mouse.y - scatterAnchor.y) > 18) gatherFromScatter();
-    }, 840);
   };
 
-  window.addEventListener('click', (event) => {
-    if (!inView(skillOrbit.getBoundingClientRect())) return;
+  const clearNetwork = () => {
+    lines.forEach((line) => line.classList.remove('is-visible'));
+    skillChips.forEach((chip) => chip.classList.remove('is-near'));
+    signal.classList.remove('is-visible');
+  };
+
+  const drawNetwork = () => {
+    frame = 0;
+    if (!lastPointer || !finePointer || reducedMotion) return;
+    const rect = skillOrbit.getBoundingClientRect();
+    if (lastPointer.x < rect.left || lastPointer.x > rect.right || lastPointer.y < rect.top || lastPointer.y > rect.bottom) {
+      clearNetwork();
+      return;
+    }
+    const pointer = { x: lastPointer.x - rect.left, y: lastPointer.y - rect.top };
+    const nodes = skillChips.map((chip, index) => {
+      const chipRect = chip.getBoundingClientRect();
+      const x = chipRect.left - rect.left + chipRect.width / 2;
+      const y = chipRect.top - rect.top + chipRect.height / 2;
+      return { chip, index, x, y, distance: Math.hypot(x - pointer.x, y - pointer.y) };
+    }).filter((node) => node.distance < 310).sort((a, b) => a.distance - b.distance).slice(0, 6);
+
+    signal.style.setProperty('--signal-x', `${pointer.x}px`);
+    signal.style.setProperty('--signal-y', `${pointer.y}px`);
+    signal.classList.toggle('is-visible', nodes.length > 0);
+    skillChips.forEach((chip) => chip.classList.remove('is-near'));
+    nodes.forEach((node) => node.chip.classList.add('is-near'));
+
+    const links = [];
+    nodes.forEach((node) => links.push({ from: pointer, to: node }));
+    for (let i = 0; i < nodes.length; i += 1) {
+      for (let j = i + 1; j < nodes.length; j += 1) {
+        if (Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y) < 250) links.push({ from: nodes[i], to: nodes[j] });
+      }
+    }
+    lines.forEach((line, index) => {
+      const link = links[index];
+      if (!link) return line.classList.remove('is-visible');
+      line.setAttribute('x1', link.from.x);
+      line.setAttribute('y1', link.from.y);
+      line.setAttribute('x2', link.to.x);
+      line.setAttribute('y2', link.to.y);
+      line.classList.add('is-visible');
+    });
+  };
+
+  const scheduleNetwork = () => {
+    if (!frame) frame = window.requestAnimationFrame(drawNetwork);
+  };
+
+  positionChips();
+  window.addEventListener('pointermove', (event) => {
+    if (event.pointerType === 'touch') return;
+    lastPointer = { x: event.clientX, y: event.clientY };
+    scheduleNetwork();
+  }, { passive: true });
+  skillOrbit.addEventListener('pointerleave', clearNetwork);
+  window.addEventListener('resize', () => {
+    positionChips();
+    scheduleNetwork();
+  });
+
+  skillOrbit.addEventListener('click', (event) => {
     if (event.target.closest('a, button, input, label, select, textarea')) return;
-    scatter();
+    const bounds = skillOrbit.getBoundingClientRect();
+    const mobile = window.innerWidth <= 760;
+    const edge = mobile ? 12 : 8;
+    skillOrbit.classList.remove('is-reflowing');
+    skillChips.forEach((chip, index) => {
+      const x = edge + Math.random() * (100 - edge * 2);
+      const y = edge + Math.random() * (100 - edge * 2);
+      chip.style.setProperty('--const-x', `${x}%`);
+      chip.style.setProperty('--const-y', `${y}%`);
+      chip.style.setProperty('--reflow-delay', `${index * 22}ms`);
+    });
+    void bounds.width;
+    skillOrbit.classList.add('is-reflowing');
+    window.setTimeout(() => skillOrbit.classList.remove('is-reflowing'), 780);
+    scheduleNetwork();
   });
 
   const appear = new IntersectionObserver((entries) => {
     if (!entries[0].isIntersecting) return;
-    appear.disconnect();
     skillOrbit.classList.add('is-revealed');
-    if (!canFollow) return;
-    initialGatherTimer = window.setTimeout(() => {
-      if (skillState === 'exploding' || skillState === 'scattered') return;
-      const rect = skillOrbit.getBoundingClientRect();
-      skillChips.forEach((chip, index) => {
-        const chipRect = chip.getBoundingClientRect();
-        trail[index].x = chipRect.left - rect.left + chipRect.width / 2;
-        trail[index].y = chipRect.top - rect.top + chipRect.height / 2;
-        chip.style.setProperty('--snake-x', `${trail[index].x - chipRect.width / 2}px`);
-        chip.style.setProperty('--snake-y', `${trail[index].y - chipRect.height / 2}px`);
-      });
-      skillOrbit.classList.add('is-gathering');
-      pointerHistory.length = 0;
-      skillState = 'following';
-      tracking = true;
-      mouseDirty = true;
-      scheduleFollow();
-    }, 950);
-  }, { threshold: 0.35 });
-
+    appear.disconnect();
+  }, { threshold: 0.25 });
   appear.observe(skillOrbit);
-  window.addEventListener('pagehide', () => {
-    window.cancelAnimationFrame(frame);
-    window.clearTimeout(scatterTimer);
-    window.clearTimeout(initialGatherTimer);
-  }, { once: true });
+  window.addEventListener('pagehide', () => window.cancelAnimationFrame(frame), { once: true });
 }
 
 const navBar = document.querySelector('.nav');
